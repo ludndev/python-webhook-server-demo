@@ -34,7 +34,7 @@ def message_handler(message):
     payload = json.loads(message_data)  # json have url, and body
     print(f"Received message: {message_data}")
 
-    em.emit('hello', payload=payload)
+    em.emit('webhook', payload=payload)
 
     # Send the POST request with the JSON payload
     # send_post_request(payload)
@@ -50,5 +50,5 @@ def subscribe():
 
 
 if __name__ == '__main__':
-    em.on('hello', send_post_request)
+    em.on('webhook', send_post_request)
     subscribe()
