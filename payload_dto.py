@@ -5,6 +5,7 @@ from typing import Dict
 
 @dataclass
 class PayloadDto:
+    event: str  # should come from enum
     url: str
     body: any
     headers: Dict[str, str] = field(default_factory=lambda: {})
