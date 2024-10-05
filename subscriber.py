@@ -13,7 +13,7 @@ default_headers = {
     'accept': 'application/json',
 }
 
-
+@events.once(emitter=em, event='webhook')
 def send_post_request(payload):
     try:
         # Initialize headers with default headers
@@ -50,5 +50,4 @@ def subscribe():
 
 
 if __name__ == '__main__':
-    em.on('webhook', send_post_request)
     subscribe()
