@@ -46,3 +46,23 @@ if __name__ == '__main__':
     )
 
     publish_message('webhook', payload)
+
+    # event = 'payment.transaction.failed'
+    # sample_body['status'] = 'failed'
+    # payload = PayloadDto(
+    #     event=event,
+    #     url=webhook_url,
+    #     body=sample_body,
+    #     headers=headers,
+    # ) 
+    # publish_message('webhook', payload)
+    
+    # event = 'invalid_event'
+    # sample_body['status'] = 'invalid_event'
+    # payload = PayloadDto(
+    #     event=event,
+    #     url=webhook_url,
+    #     body=sample_body,
+    #     headers=headers,
+    # )
+    # publish_message('webhook', payload)
