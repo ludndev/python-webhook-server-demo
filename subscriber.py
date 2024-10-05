@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import redis
 import requests
 import json
@@ -13,7 +15,8 @@ default_headers = {
     'accept': 'application/json',
 }
 
-@events.once(emitter=em, event='webhook')
+
+@events.on(emitter=em, event='webhook')
 def send_post_request(payload):
     try:
         # Initialize headers with default headers
@@ -31,10 +34,22 @@ def send_post_request(payload):
 
 def message_handler(message):
     message_data = message['data'].decode('utf-8')
-    payload = json.loads(message_data)  # json have url, and body
+    payload = json.loads(message_data)  # see payload_dto.py
     print(f"Received message: {message_data}")
 
-    em.emit('webhook', payload=payload)
+    event = payload['event']
+
+    match event:
+        case 'payment.transaction.failed':
+            payload['body']['event'] = event
+            payload['body']['timestamp'] = datetime.now().timestamp()
+            em.emit('webhook', payload=payload)
+        case 'payment.transaction.success':
+            payload['body']['event'] = event
+            payload['body']['timestamp'] = datetime.now().timestamp()
+            em.emit('webhook', payload=payload)
+        case _:
+            print('unknown event')
 
     # Send the POST request with the JSON payload
     # send_post_request(payload)
